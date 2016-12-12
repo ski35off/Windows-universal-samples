@@ -310,7 +310,12 @@ namespace CustomSerialDeviceAccess
             UInt32 bytesRead = await loadAsyncTask;
             if (bytesRead > 0)
             {
-                ReadBytesTextBlock.Text += DataReaderObject.ReadString(bytesRead);
+                for (int i = 0; i < bytesRead; i++)
+                {
+                    ReadBytesTextBlock.Text += String.Format("{0:X2}", DataReaderObject.ReadByte()) + " ";
+                }
+                ReadBytesTextBlock.Text += "\n";
+
                 ReadBytesCounter += bytesRead;
                 UpdateReadBytesCounterView();
 
@@ -328,7 +333,20 @@ namespace CustomSerialDeviceAccess
                 char[] buffer = new char[WriteBytesInputValue.Text.Length];
                 WriteBytesInputValue.Text.CopyTo(0, buffer, 0, WriteBytesInputValue.Text.Length);
                 String InputString = new string(buffer);
-                DataWriteObject.WriteString(InputString);
+
+                //convert string of hex values into bytes
+                String[] InputSplit = InputString.Split(' ');
+                Byte[] InputBytes = new Byte[InputSplit.Length];
+                int i = 0;
+
+                foreach (String hex in InputSplit)
+                {
+                    // convert the number expressed in hex to an integer
+                    InputBytes[i++] = Convert.ToByte(hex, 16);
+                }
+
+                //DataWriteObject.WriteString(InputString);
+                DataWriteObject.WriteBytes(InputBytes);
                 WriteBytesInputValue.Text = "";
 
                 // Don't start any IO if we canceled the task
@@ -344,7 +362,12 @@ namespace CustomSerialDeviceAccess
                 UInt32 bytesWritten = await storeAsyncTask;
                 if (bytesWritten > 0)
                 {
-                    WriteBytesTextBlock.Text += InputString.Substring(0, (int)bytesWritten) + '\n';
+                    for (int j = 0; j < bytesWritten; j++)
+                    {
+                        WriteBytesTextBlock.Text += String.Format("{0:X2}", InputBytes[j]) + " ";
+                    }
+                    WriteBytesTextBlock.Text += "\n";
+
                     WriteBytesCounter += bytesWritten;
                     UpdateWriteBytesCounterView();
                 }
