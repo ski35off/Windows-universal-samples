@@ -64,6 +64,10 @@ namespace CustomSerialDeviceAccess
         public Scenario3_ReadWrite()
         {
             this.InitializeComponent();
+
+            // Initialize timeout values to 1000 ms
+            EventHandlerForDevice.Current.Device.ReadTimeout = new System.TimeSpan(1000 * 10000);
+            EventHandlerForDevice.Current.Device.WriteTimeout = new System.TimeSpan(1000 * 10000);
         }
 
         public void Dispose()

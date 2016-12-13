@@ -27,11 +27,11 @@ namespace CustomSerialDeviceAccess
 
     public class DeviceConfiguration
     {
-        public const UInt32 BaudRate = 115200;
+        public const UInt32 BaudRate = 250000;
 
-        public const Windows.Devices.SerialCommunication.SerialParity Parity = Windows.Devices.SerialCommunication.SerialParity.Even;
+        public const Windows.Devices.SerialCommunication.SerialParity Parity = Windows.Devices.SerialCommunication.SerialParity.None;
 
-        public const Windows.Devices.SerialCommunication.SerialStopBitCount StopBits = Windows.Devices.SerialCommunication.SerialStopBitCount.OnePointFive;
+        public const Windows.Devices.SerialCommunication.SerialStopBitCount StopBits = Windows.Devices.SerialCommunication.SerialStopBitCount.One;
 
         public const UInt16 DataBits = 8;
 
